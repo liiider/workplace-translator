@@ -6,7 +6,7 @@ import Result from './pages/Result';
 function App() {
     return (
         <Router>
-            <div className="min-h-screen bg-background-light dark:bg-zinc-950">
+            <div className="h-[100dvh] w-full bg-zinc-950 overflow-hidden relative">
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/result" element={<Result />} />

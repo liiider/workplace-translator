@@ -163,25 +163,45 @@ const Result = () => {
 
     if (loading) {
         return (
-            <div className="relative flex h-full min-h-screen w-full flex-col items-center justify-center max-w-md mx-auto bg-background-light dark:bg-background-dark font-display antialiased p-8 text-center">
-                <div className="flex flex-col items-center gap-6">
+            <div className="relative flex h-[100dvh] w-full flex-col items-center justify-center max-w-md mx-auto bg-zinc-950 font-display antialiased overflow-hidden">
+                {/* 扫描背景线 */}
+                <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,6px_100%] animate-pulse"></div>
+
+                <div className="relative z-10 flex flex-col items-center gap-10">
                     <div className="relative">
                         <motion.div
-                            animate={{ rotate: 360 }}
-                            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                            className="w-16 h-16 rounded-full border-4 border-primary/20 border-t-primary"
+                            animate={{
+                                scale: [1, 1.2, 1],
+                                opacity: [0.3, 0.6, 0.3]
+                            }}
+                            transition={{ duration: 2, repeat: Infinity }}
+                            className="absolute -inset-8 bg-purple-500/20 blur-3xl rounded-full"
                         ></motion.div>
                         <motion.div
-                            animate={{ scale: [1, 1.2, 1] }}
-                            transition={{ duration: 1.5, repeat: Infinity }}
-                            className="absolute inset-0 flex items-center justify-center"
-                        >
-                            <Sparkles className="w-6 h-6 text-primary" />
-                        </motion.div>
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                            className="w-24 h-24 rounded-full border-b-2 border-t-2 border-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.4)]"
+                        ></motion.div>
+                        <div className="absolute inset-0 flex items-center justify-center">
+                            <Zap className="w-8 h-8 text-purple-400 animate-pulse" />
+                        </div>
                     </div>
-                    <div className="flex flex-col gap-2">
-                        <h3 className="text-xl font-bold dark:text-white">正在深度解码...</h3>
-                        <p className="text-sm text-slate-500 dark:text-zinc-500 font-mono italic animate-pulse">正在穿透职场伪装，捕捉真实意图</p>
+
+                    <div className="flex flex-col items-center gap-4">
+                        <div className="flex flex-col items-center">
+                            <h3 className="text-xl font-display font-black text-white tracking-[0.2em] uppercase">Decoding...</h3>
+                            <div className="h-1 w-32 bg-zinc-900 rounded-full mt-2 overflow-hidden relative">
+                                <motion.div
+                                    animate={{ left: ['-100%', '100%'] }}
+                                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                                    className="absolute inset-0 w-1/2 bg-gradient-to-r from-transparent via-purple-500 to-transparent"
+                                ></motion.div>
+                            </div>
+                        </div>
+                        <div className="flex flex-col items-center gap-1">
+                            <p className="text-[10px] text-zinc-500 font-mono tracking-widest uppercase">Bypassing Workplace Filters</p>
+                            <p className="text-[10px] text-purple-500/50 font-mono tracking-widest uppercase animate-pulse">Injecting Contextual Intel</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -190,20 +210,20 @@ const Result = () => {
 
     if (error) {
         return (
-            <div className="relative flex h-full min-h-screen w-full flex-col items-center justify-center max-w-md mx-auto bg-background-light dark:bg-background-dark font-display antialiased p-8 text-center">
-                <div className="flex flex-col items-center gap-4">
+            <div className="relative flex h-[100dvh] w-full flex-col items-center justify-center max-w-md mx-auto bg-zinc-950 font-display antialiased p-8 text-center overflow-hidden">
+                <div className="flex flex-col items-center gap-4 relative z-10">
                     <div className="w-16 h-16 rounded-full bg-red-500/10 flex items-center justify-center text-red-500 mb-2">
                         <span className="material-symbols-outlined text-[40px]">error</span>
                     </div>
-                    <h3 className="text-xl font-bold dark:text-white">解码失败</h3>
-                    <p className="text-sm text-slate-500 dark:text-zinc-500 leading-relaxed max-w-[280px]">
+                    <h3 className="text-xl font-bold text-white">解码失败</h3>
+                    <p className="text-sm text-zinc-500 leading-relaxed max-w-[280px]">
                         无法解析这段“鸟语”。<br />可能是网络波动或 API 服务暂不可用。<br />
                         <span className="text-xs opacity-60 font-mono mt-2 block">[{error}]</span>
                     </p>
                     <motion.button
                         whileTap={{ scale: 0.95 }}
                         onClick={() => navigate(-1)}
-                        className="mt-6 px-6 py-2.5 rounded-xl bg-slate-200 dark:bg-zinc-800 text-sm font-semibold hover:bg-slate-300 dark:hover:bg-zinc-700 transition-colors"
+                        className="mt-6 px-6 py-2.5 rounded-xl bg-zinc-800 text-sm font-semibold hover:bg-zinc-700 transition-colors text-zinc-300"
                     >
                         返回主页
                     </motion.button>
@@ -217,155 +237,143 @@ const Result = () => {
             initial="hidden"
             animate="visible"
             variants={containerVariants}
-            className="relative flex h-[100dvh] w-full flex-col max-w-md mx-auto border-x border-zinc-900 shadow-2xl bg-zinc-950 text-zinc-100 font-display antialiased overflow-hidden"
+            className="relative flex h-[100dvh] w-full flex-col max-w-md mx-auto sm:border-x border-white/5 shadow-2xl bg-zinc-950 text-zinc-100 font-display antialiased overflow-hidden"
         >
             {/* 渐变装饰背景 - 保持与首页一致 */}
             <div className="absolute inset-0 pointer-events-none">
                 <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-purple-600/10 blur-[120px] rounded-full"></div>
                 <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-blue-600/5 blur-[120px] rounded-full"></div>
+                {/* CRT 扫描线背景 */}
+                <div className="absolute inset-0 opacity-[0.02] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,6px_100%]"></div>
             </div>
-            {/* 顶部导航 - 精简对齐版本 */}
-            <header className="flex items-center px-4 py-4 justify-center sticky top-0 z-30 bg-zinc-950/80 backdrop-blur-xl border-b border-white/5">
+            {/* 顶部导航 - 原生 App 风格 */}
+            <header className="flex items-end px-4 h-[calc(3.5rem+env(safe-area-inset-top))] pb-3 justify-center sticky top-0 z-30 bg-zinc-950/90 backdrop-blur-2xl border-b border-white/[0.03] shrink-0 pt-[env(safe-area-inset-top)]">
                 <motion.button
                     whileTap={{ scale: 0.9 }}
                     onClick={() => navigate(-1)}
-                    className="absolute left-5 text-zinc-400 flex size-10 items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 hover:text-purple-400 transition-all border border-white/5"
-                    title="返回"
+                    className="absolute left-4 bottom-2 text-zinc-400 flex size-9 items-center justify-center rounded-full bg-white/[0.03] hover:bg-white/[0.08] transition-all"
                 >
-                    <ArrowLeft className="w-5 h-5" />
+                    <ArrowLeft className="w-5 h-5 text-zinc-300" />
                 </motion.button>
 
-                <div className="flex flex-col items-center justify-center">
-                    <div className="flex items-center gap-2 font-display">
-                        <motion.span
-                            animate={{ opacity: [0.5, 1, 0.5] }}
-                            transition={{ duration: 1.5, repeat: Infinity }}
-                            className="text-purple-500 text-2xl font-black"
-                        >
-                            &gt;_
-                        </motion.span>
-                        <h2 className="text-zinc-100 text-2xl font-bold tracking-normal">深度解码报告</h2>
-                    </div>
-
-                    <div className="flex items-center gap-1.5 mt-2 font-mono">
-                        <span className="w-1.5 h-1.5 rounded-full bg-primary/60 animate-pulse"></span>
-                        <p className="text-primary text-[11px] font-bold tracking-[0.25em] uppercase">TARGET: {personaMap[persona] || '未知'}</p>
-                    </div>
+                <div className="flex flex-col items-center">
+                    <span className="text-[10px] font-tech text-purple-500/80 tracking-[0.3em] uppercase leading-none mb-1">Analysis Report</span>
+                    <h2 className="text-zinc-100 text-[15px] font-black tracking-wider uppercase">深度报告</h2>
                 </div>
 
-                {/* 右侧留空以保持标题居中 */}
-                <div className="absolute right-5 w-10"></div>
+                <div className="absolute right-4 flex items-center gap-2">
+                    <div className="size-1.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.4)]"></div>
+                </div>
             </header>
 
-            <main className="flex-1 flex flex-col gap-4 p-4 pt-4 no-scrollbar relative z-10 overflow-y-auto">
-                {/* 顶部防穿透遮罩 - 适配暗色背景 */}
-                <div className="sticky top-0 left-0 right-0 h-8 bg-gradient-to-b from-zinc-950 to-transparent z-10 pointer-events-none -mt-6"></div>
+            <main className="flex-1 flex flex-col gap-4 p-4 pt-4 no-scrollbar relative z-10 overflow-y-auto pb-36">
+                {/* 顶部防穿透渐变 */}
+                <div className="sticky top-0 left-0 right-0 h-12 bg-gradient-to-b from-zinc-950 via-zinc-950/50 to-transparent z-10 pointer-events-none -mt-6"></div>
+
+                {/* 身份摘要 - 新增 App 风格组件 */}
+                <motion.div variants={itemVariants} className="flex items-center justify-between px-1 py-1">
+                    <div className="flex items-center gap-2">
+                        <div className="size-2 rounded-full bg-purple-500"></div>
+                        <span className="text-xs font-tech text-zinc-500 uppercase tracking-widest">Target: {personaMap[persona]}</span>
+                    </div>
+                    <div className="text-[10px] font-mono text-zinc-700">LV.{fireLevel} READY</div>
+                </motion.div>
 
                 {/* 潜台词卡片 */}
-                <motion.div variants={itemVariants} className="w-full snap-start scroll-mt-24">
-                    <div className="flex flex-col gap-3 rounded-2xl bg-accent-amber p-6 shadow-xl relative overflow-hidden group border-b-4 border-amber-600/50">
-                        <div className="flex flex-col gap-3 z-10">
-                            <div className="flex items-center gap-3 mb-1">
-                                <div className="flex items-center justify-center size-9 rounded-xl bg-black/10 text-zinc-950 border border-black/5 shadow-inner">
-                                    <span className="material-symbols-outlined text-[24px]">visibility</span>
-                                </div>
-                                <p className="text-zinc-950 text-xl font-black leading-tight">
-                                    潜台词
-                                </p>
+                <motion.div variants={itemVariants} className="w-full">
+                    <div className="flex flex-col gap-3 rounded-[24px] bg-accent-amber p-6 shadow-2xl relative overflow-hidden border-b-4 border-amber-600/30">
+                        <div className="flex flex-col gap-2 relative z-10">
+                            <div className="flex items-center gap-2 mb-1 opacity-80">
+                                <span className="material-symbols-outlined text-[18px] text-zinc-950">search_insights</span>
+                                <span className="text-zinc-950 text-xs font-black uppercase tracking-widest">Subtext Decoder</span>
                             </div>
-                            <div className="relative">
-                                <div
-                                    className="text-zinc-900 text-[16px] font-serif font-medium leading-[1.8] tracking-normal pb-4"
-                                    dangerouslySetInnerHTML={renderMarkdown(difyResult.subtext)}
-                                />
-                            </div>
-                        </div>
-                        {/* 装饰性背景 */}
-                        <div className="absolute top-[-10%] right-[-5%] opacity-10 pointer-events-none transform rotate-12">
-                            <span className="material-symbols-outlined text-[100px] text-black">search_insights</span>
+                            <div
+                                className="text-zinc-900 text-[16.5px] font-serif font-bold leading-[1.8] tracking-tight"
+                                dangerouslySetInnerHTML={renderMarkdown(difyResult.subtext)}
+                            />
                         </div>
                     </div>
                 </motion.div>
 
                 {/* 下一步行动 */}
-                <motion.div variants={itemVariants} className="w-full snap-start scroll-mt-24">
-                    <div className="flex items-center gap-3 mb-4 px-1">
-                        <div className="flex items-center justify-center size-9 rounded-xl bg-purple-500/10 text-purple-500 border border-purple-500/20 shadow-[0_0_15px_rgba(168,85,247,0.1)]">
-                            <ClipboardCheck className="w-5 h-5" />
-                        </div>
-                        <h3 className="text-zinc-100 tracking-tight text-lg font-display font-black leading-tight">下一步行动</h3>
+                <motion.div variants={itemVariants} className="w-full">
+                    <div className="flex items-center gap-2 mb-3 px-1">
+                        <h3 className="text-zinc-400 tracking-[0.2em] text-[10px] font-tech font-black uppercase">Next Steps / 行动指南</h3>
                     </div>
-                    <div className="flex flex-col gap-3">
+                    <div className="flex flex-col gap-2.5">
                         {difyResult.actions.map((action, index) => {
                             const cleaned = cleanAction(action);
                             if (!cleaned) return null;
                             return (
-                                <div key={index} className="flex items-start gap-4 p-4 rounded-2xl bg-zinc-950/40 border border-zinc-800/50 transition-all shadow-sm relative overflow-hidden">
-                                    <div className="flex-shrink-0 text-green-500 text-[18px] font-mono font-black mt-0.5 min-w-[1.5rem]">
-                                        {index + 1}<span className="animate-pulse">_</span>
+                                <motion.div
+                                    key={index}
+                                    variants={itemVariants}
+                                    className="flex items-start gap-4 p-4 rounded-2xl bg-zinc-900/30 border border-white/[0.03] transition-all"
+                                >
+                                    <div className="flex-shrink-0 size-5 rounded-md bg-green-500/10 text-green-500 flex items-center justify-center border border-green-500/20 mt-0.5">
+                                        <Check className="w-3 h-3" />
                                     </div>
-                                    <p className="text-zinc-300 text-[15px] font-serif font-bold leading-[1.6] tracking-tight">
+                                    <p className="text-zinc-300 text-[14px] font-bold leading-relaxed tracking-tight flex-1">
                                         {cleaned}
                                     </p>
-                                </div>
+                                </motion.div>
                             );
                         })}
                     </div>
                 </motion.div>
 
                 {/* 建议回复 */}
-                <motion.div variants={itemVariants} className="w-full snap-start scroll-mt-24">
-                    <div className="flex items-center justify-between mb-4 px-1">
-                        <div className="flex items-center gap-3">
-                            <div className="flex items-center justify-center size-9 rounded-xl bg-purple-500/10 text-purple-500 border border-purple-500/20 shadow-[0_0_15px_rgba(168,85,247,0.1)]">
-                                <MessageSquare className="w-5 h-5" />
-                            </div>
-                            <h3 className="text-zinc-100 tracking-tight text-lg font-display font-black leading-tight">回复话术</h3>
-                        </div>
+                <motion.div variants={itemVariants} className="w-full">
+                    <div className="flex items-center gap-2 mb-3 px-1">
+                        <h3 className="text-zinc-400 tracking-[0.2em] text-[10px] font-tech font-black uppercase">Response Protocol / 建议话术</h3>
                     </div>
-                    <div className="rounded-2xl border border-zinc-800 bg-black/95 overflow-hidden shadow-2xl relative group">
-                        <div className="bg-zinc-900/80 px-4 py-3 flex items-center justify-between border-b border-zinc-800/50">
-                            <div className="flex gap-2">
-                                <div className="w-3 h-3 rounded-full bg-red-500/40"></div>
-                                <div className="w-3 h-3 rounded-full bg-yellow-500/40"></div>
-                                <div className="w-3 h-3 rounded-full bg-green-500/40"></div>
+                    <div className="rounded-[28px] border border-white/[0.05] bg-zinc-900/40 backdrop-blur-xl overflow-hidden shadow-2xl relative group">
+                        <div className="bg-white/[0.02] px-5 py-3 flex items-center justify-between border-b border-white/[0.05]">
+                            <div className="flex items-center gap-2">
+                                <div className="size-1.5 rounded-full bg-purple-500 animate-pulse"></div>
+                                <span className="text-zinc-500 font-mono text-[9px] tracking-[0.2em] uppercase">Encrypted Output</span>
                             </div>
-                            <span className="text-[10px] text-zinc-500 font-mono tracking-widest uppercase opacity-60">RESPONSE_GEN.sh</span>
+                            <span className="text-[9px] text-zinc-600 font-mono italic">#0421-GEN</span>
                         </div>
-                        <div className="p-6 font-serif text-[16px] leading-[1.7] tracking-wider text-terminal-green relative min-h-[160px]">
-                            <div
-                                className="absolute inset-0 pointer-events-none z-10 opacity-10"
-                                style={{
-                                    backgroundImage: "radial-gradient(circle, #22c55e 1px, transparent 1px)",
-                                    backgroundSize: "20px 20px"
-                                }}
-                            ></div>
-                            <div className="relative z-20 whitespace-pre-wrap">
-                                {difyResult.response}
+                        <div className="p-7 relative min-h-[140px]">
+                            <div className="relative z-20 font-serif text-[18px] leading-[1.8] tracking-wide text-terminal-green italic">
+                                “ {difyResult.response} ”
                             </div>
                         </div>
                     </div>
                 </motion.div>
 
-                {/* 复制回复大按钮 */}
-                <motion.div variants={itemVariants} className="pb-8 pt-4">
+                <div className="h-6"></div>
+            </main>
+
+            {/* 一键复制按钮 - 沉浸式固定底部适配 safe-area */}
+            <motion.div
+                variants={itemVariants}
+                className="absolute bottom-0 left-0 w-full px-5 pt-8 pb-[calc(1.5rem+env(safe-area-inset-bottom))] bg-gradient-to-t from-zinc-950 via-zinc-950 to-transparent z-40"
+            >
+                <div className="relative group/btn">
+                    <div className={cn(
+                        "absolute -inset-[2px] rounded-2xl blur-2xl transition-all duration-700 opacity-20 group-hover/btn:opacity-50",
+                        copied ? "bg-green-500" : "bg-purple-600"
+                    )}></div>
                     <motion.button
-                        whileHover={{ y: -2, scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
+                        whileHover={{ y: -2 }}
+                        whileTap={{ scale: 0.97 }}
                         onClick={handleCopy}
                         className={cn(
-                            "w-full flex items-center justify-center gap-3 py-4 px-6 rounded-2xl text-white text-lg font-black shadow-[0_8px_30px_rgb(59,130,246,0.3)] transition-all",
-                            copied ? "bg-green-500 hover:bg-green-600 shadow-green-500/30" : "bg-primary hover:bg-blue-600"
+                            "w-full h-15 py-4 relative overflow-hidden rounded-2xl flex items-center justify-center gap-3 transition-all duration-500 border border-white/10",
+                            "text-white font-display font-black text-lg shadow-2xl",
+                            copied ? "bg-green-600" : "bg-gradient-to-r from-purple-600 to-blue-600"
                         )}
                     >
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover/btn:animate-[shimmer_3s_infinite]"></div>
                         <span className="material-symbols-outlined text-[24px]">
                             {copied ? 'done' : 'content_copy'}
                         </span>
-                        {copied ? '已复制到剪贴板' : '复制回复'}
+                        <span className="tracking-widest uppercase text-sm font-black">{copied ? '已复制' : '复制内容'}</span>
                     </motion.button>
-                </motion.div>
-                <div className="h-4"></div>
-            </main>
+                </div>
+            </motion.div>
         </motion.div>
     );
 };

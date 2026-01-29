@@ -5,13 +5,24 @@
 @layer base {
     body {
         height: 100dvh;
-        @apply antialiased text-slate-900 bg-background-light dark:bg-zinc-950 dark:text-white font-display overflow-hidden;
+        width: 100vw;
+        @apply antialiased bg-zinc-950 text-white font-display overflow-hidden;
+        -webkit-tap-highlight-color: transparent;
+        overscroll-behavior: none;
+        user-select: none;
+    }
+
+    /* 允许输入框选择文字 */
+    input,
+    textarea {
+        user-select: text !important;
     }
 }
 
 /* Custom Styles from home.txt */
 input[type=range] {
     -webkit-appearance: none;
+    appearance: none;
     width: 100%;
     background: transparent;
 }

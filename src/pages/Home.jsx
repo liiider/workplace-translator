@@ -148,7 +148,7 @@ const Home = () => {
             initial="hidden"
             animate="visible"
             variants={containerVariants}
-            className="relative w-full max-w-md h-[100dvh] flex flex-col bg-background-light dark:bg-zinc-950 shadow-2xl overflow-hidden mx-auto font-display antialiased selection:bg-purple-500/30"
+            className="relative w-full max-w-md h-[100dvh] flex flex-col bg-zinc-950 sm:border-x border-white/5 shadow-2xl overflow-hidden mx-auto font-display antialiased"
         >
             {/* 渐变装饰背景 */}
             <div className="absolute inset-0 pointer-events-none">
@@ -156,11 +156,9 @@ const Home = () => {
                 <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-600/5 blur-[100px] rounded-full"></div>
             </div>
 
-            <div className="h-6 w-full shrink-0"></div>
-
             <motion.header
                 variants={itemVariants}
-                className="flex flex-col items-center justify-center px-4 pb-4 pt-2 z-10 relative"
+                className="flex flex-col items-center justify-center px-4 pb-3 pt-[calc(0.5rem+env(safe-area-inset-top))] z-30 relative shrink-0 bg-zinc-950/50 backdrop-blur-md border-b border-white/[0.02]"
             >
                 <div className="flex items-center gap-3 mb-2">
                     <div className="flex items-center gap-2 font-display">
