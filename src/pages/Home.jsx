@@ -143,6 +143,15 @@ const Home = () => {
         '--value': `${((fireLevel - 1) / (3 - 1)) * 100}%`
     };
 
+    /**
+     * 手动触发失焦以收起移动端键盘
+     */
+    const blurInput = () => {
+        if (document.activeElement instanceof HTMLElement) {
+            document.activeElement.blur();
+        }
+    };
+
     return (
         <motion.div
             initial="hidden"
@@ -210,7 +219,10 @@ const Home = () => {
                         ].map((item) => (
                             <button
                                 key={item.id}
-                                onClick={() => setPersona(item.id)}
+                                onClick={() => {
+                                    setPersona(item.id);
+                                    blurInput();
+                                }}
                                 className={cn(
                                     "relative flex flex-col items-center gap-2 p-3 rounded-2xl transition-all duration-500 border overflow-hidden group",
                                     persona === item.id
@@ -386,6 +398,7 @@ const Home = () => {
                             step="1"
                             type="range"
                             value={fireLevel}
+                            onPointerDown={blurInput}
                             onChange={(e) => setFireLevel(parseInt(e.target.value))}
                         />
 
