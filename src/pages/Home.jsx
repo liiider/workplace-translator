@@ -156,13 +156,13 @@ const Home = () => {
                 <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-600/5 blur-[100px] rounded-full"></div>
             </div>
 
-            <div className="h-10 w-full shrink-0"></div>
+            <div className="h-6 w-full shrink-0"></div>
 
             <motion.header
                 variants={itemVariants}
-                className="flex flex-col items-center justify-center px-4 pb-8 pt-2 z-10 relative"
+                className="flex flex-col items-center justify-center px-4 pb-4 pt-2 z-10 relative"
             >
-                <div className="flex items-center gap-3 mb-4">
+                <div className="flex items-center gap-3 mb-2">
                     <div className="flex items-center gap-2 font-display">
                         <motion.span
                             animate={{ opacity: [0.5, 1, 0.5] }}
@@ -193,11 +193,11 @@ const Home = () => {
                 </div>
             </motion.header>
 
-            <main className="flex-1 w-full px-5 py-2 flex flex-col gap-5 pb-28 z-10 no-scrollbar relative overflow-y-auto">
+            <main className="flex-1 w-full px-5 py-2 flex flex-col gap-3 pb-24 z-10 no-scrollbar relative overflow-y-auto">
                 <div className="h-1"></div>
 
                 {/* 对方身份 - 极致卡片 */}
-                <motion.div variants={itemVariants} className="flex flex-col gap-4 shrink-0">
+                <motion.div variants={itemVariants} className="flex flex-col gap-3 shrink-0">
                     <div className="flex items-center gap-3 pl-1">
                         <div className="p-2 rounded-xl bg-purple-500/10 border border-purple-500/20 glassmorphism shadow-[0_4px_12px_rgba(168,85,247,0.05)]">
                             <ShieldCheck className="w-5 h-5 text-purple-500" />
@@ -214,7 +214,7 @@ const Home = () => {
                                 key={item.id}
                                 onClick={() => setPersona(item.id)}
                                 className={cn(
-                                    "relative flex flex-col items-center gap-3 p-4 rounded-2xl transition-all duration-500 border overflow-hidden group",
+                                    "relative flex flex-col items-center gap-2 p-3 rounded-2xl transition-all duration-500 border overflow-hidden group",
                                     persona === item.id
                                         ? "bg-purple-600/10 border-purple-500/50 shadow-[0_0_20px_rgba(168,85,247,0.15)] ring-1 ring-purple-500/30"
                                         : "bg-zinc-900/40 border-zinc-800/50 hover:border-zinc-700/80 text-zinc-500"
@@ -239,7 +239,7 @@ const Home = () => {
                                     <item.icon className="w-6 h-6 relative z-10" />
                                 </motion.div>
                                 <span className={cn(
-                                    "text-[13px] font-bold tracking-tight transition-colors duration-500",
+                                    "text-[12px] font-bold tracking-tight transition-colors duration-500",
                                     persona === item.id ? "text-zinc-100" : "text-zinc-500"
                                 )}>{item.name}</span>
                             </button>
@@ -248,7 +248,7 @@ const Home = () => {
                 </motion.div>
 
                 {/* 输入内容 - 真核终端 */}
-                <motion.div variants={itemVariants} className="flex flex-col gap-4 relative group/input shrink-0">
+                <motion.div variants={itemVariants} className="flex flex-col gap-3 relative group/input shrink-0">
                     <div className="flex items-center gap-3 pl-1">
                         <div className="p-2 rounded-xl bg-purple-500/10 border border-purple-500/20 glassmorphism shadow-[0_4px_12px_rgba(168,85,247,0.05)]">
                             <Terminal className="w-5 h-5 text-purple-500" />
@@ -311,7 +311,7 @@ const Home = () => {
                             <div className="relative flex-1">
                                 <textarea
                                     className={cn(
-                                        "w-full min-h-[160px] max-h-[30vh] bg-transparent text-zinc-200 placeholder:text-zinc-700 p-4 text-[15px] font-serif focus:outline-none scroll-smooth resize-none border-none outline-none ring-0 leading-relaxed caret-purple-500 no-scrollbar overflow-y-auto",
+                                        "w-full min-h-[140px] max-h-[25vh] bg-transparent text-zinc-200 placeholder:text-zinc-700 p-4 text-[15px] font-serif focus:outline-none scroll-smooth resize-none border-none outline-none ring-0 leading-relaxed caret-purple-500 no-scrollbar overflow-y-auto",
                                         fileId && "opacity-50 cursor-not-allowed"
                                     )}
                                     placeholder={fileId ? "> 已上传图片，点击图片周围 X 移除后可输入文字..." : "> 粘贴内容，开始翻译..."}
@@ -352,7 +352,7 @@ const Home = () => {
                 </motion.div>
 
                 {/* 火力调节 - 霓虹调节器 */}
-                <motion.div variants={itemVariants} className="flex flex-col gap-4">
+                <motion.div variants={itemVariants} className="flex flex-col gap-3">
                     <div className="flex justify-between items-center pl-1">
                         <div className="flex items-center gap-3">
                             <div className="p-2 rounded-xl bg-purple-500/10 border border-purple-500/20 glassmorphism shadow-[0_4px_12px_rgba(168,85,247,0.05)]">
@@ -440,7 +440,7 @@ const Home = () => {
             {/* 一键净化按钮 - 精修版 */}
             < motion.div
                 variants={itemVariants}
-                className="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-zinc-950 via-zinc-950 to-transparent z-20"
+                className="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-zinc-950 via-zinc-950 to-transparent z-20"
             >
                 <div className="relative group/btn">
                     {/* 背景霓虹辉光 - 稍微增强以适配实心按钮 */}

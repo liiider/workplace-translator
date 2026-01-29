@@ -225,7 +225,7 @@ const Result = () => {
                 <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-blue-600/5 blur-[120px] rounded-full"></div>
             </div>
             {/* 顶部导航 - 精简对齐版本 */}
-            <header className="flex items-center px-4 py-8 justify-center sticky top-0 z-30 bg-zinc-950/80 backdrop-blur-xl border-b border-white/5">
+            <header className="flex items-center px-4 py-4 justify-center sticky top-0 z-30 bg-zinc-950/80 backdrop-blur-xl border-b border-white/5">
                 <motion.button
                     whileTap={{ scale: 0.9 }}
                     onClick={() => navigate(-1)}
@@ -247,7 +247,7 @@ const Result = () => {
                         <h2 className="text-zinc-100 text-2xl font-bold tracking-normal">深度解码报告</h2>
                     </div>
 
-                    <div className="flex items-center gap-1.5 mt-4 font-mono">
+                    <div className="flex items-center gap-1.5 mt-2 font-mono">
                         <span className="w-1.5 h-1.5 rounded-full bg-primary/60 animate-pulse"></span>
                         <p className="text-primary text-[11px] font-bold tracking-[0.25em] uppercase">TARGET: {personaMap[persona] || '未知'}</p>
                     </div>
@@ -257,7 +257,7 @@ const Result = () => {
                 <div className="absolute right-5 w-10"></div>
             </header>
 
-            <main className="flex-1 flex flex-col gap-6 p-4 pt-6 no-scrollbar relative z-10 overflow-y-auto">
+            <main className="flex-1 flex flex-col gap-4 p-4 pt-4 no-scrollbar relative z-10 overflow-y-auto">
                 {/* 顶部防穿透遮罩 - 适配暗色背景 */}
                 <div className="sticky top-0 left-0 right-0 h-8 bg-gradient-to-b from-zinc-950 to-transparent z-10 pointer-events-none -mt-6"></div>
 
