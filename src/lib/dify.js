@@ -2,7 +2,7 @@
  * Dify Workflow API Service
  */
 
-const DIFY_API_BASE = 'http://dify.acesohealthy.com/v1';
+const DIFY_API_BASE = import.meta.env.PROD ? '/dify-api' : 'http://dify.acesohealthy.com/v1';
 const DIFY_APP_KEY = 'app-F2rY2mmKq9CyiBTdJSctF3Qh';
 
 /**
