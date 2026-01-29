@@ -51,6 +51,52 @@ const Home = () => {
     const [filePreview, setFilePreview] = useState(null);
     const fileInputRef = React.useRef(null);
 
+    const compressImage = (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = (event) => {
+                const img = new Image();
+                img.src = event.target.result;
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
+
+                    // 限制最大尺寸为 1200px
+                    const MAX_SIZE = 1200;
+                    if (width > height) {
+                        if (width > MAX_SIZE) {
+                            height *= MAX_SIZE / width;
+                            width = MAX_SIZE;
+                        }
+                    } else {
+                        if (height > MAX_SIZE) {
+                            width *= MAX_SIZE / height;
+                            height = MAX_SIZE;
+                        }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    // 导出为 jpeg 并设置质量为 0.7
+                    canvas.toBlob((blob) => {
+                        const compressedFile = new File([blob], file.name, {
+                            type: 'image/jpeg',
+                            lastModified: Date.now(),
+                        });
+                        resolve(compressedFile);
+                    }, 'image/jpeg', 0.7);
+                };
+                img.onerror = reject;
+            };
+            reader.onerror = reject;
+        });
+    };
+
     const handleFileChange = async (e) => {
         const file = e.target.files[0];
         if (!file) return;
@@ -64,14 +110,19 @@ const Home = () => {
 
         setIsUploading(true);
         try {
-            console.log('[Home] Starting file upload...', file.name);
-            const result = await uploadFile(file);
+            console.log('[Home] Starting file compression...', file.name, (file.size / 1024 / 1024).toFixed(2) + 'MB');
+            const compressedFile = await compressImage(file);
+            console.log('[Home] Compressed size:', (compressedFile.size / 1024).toFixed(2) + 'KB');
+
+            const result = await uploadFile(compressedFile);
             console.log('[Home] Upload result:', result);
             setFileId(result.id);
         } catch (err) {
             console.error('Upload failed:', err);
-            alert('图片上传失败，请重试');
+            const errorMessage = err.message ? `: ${err.message}` : '，请检查图片大小或网络';
+            alert('图片上传失败' + errorMessage);
             setFilePreview(null);
+            if (fileInputRef.current) fileInputRef.current.value = '';
         } finally {
             setIsUploading(false);
         }

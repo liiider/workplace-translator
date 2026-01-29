@@ -2,7 +2,14 @@
  * Dify Workflow API Service
  */
 
-const DIFY_API_BASE = import.meta.env.PROD ? '/dify-api' : 'http://dify.acesohealthy.com/v1';
+const getApiBase = () => {
+    // 1. 如果是生产环境域名（Vercel 等），使用相对路径代理
+    // 2. 如果是开发环境（如 192.168.x.x 或 localhost），也使用相对路径代理（因为配置了 vite proxy）
+    // 3. 只有在特殊情况下（如直接在原生 App WebView 中且没有配置好 proxy 时）才使用绝对路径
+    return '/dify-api';
+};
+
+const DIFY_API_BASE = getApiBase();
 const DIFY_APP_KEY = 'app-F2rY2mmKq9CyiBTdJSctF3Qh';
 
 /**
