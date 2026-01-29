@@ -246,7 +246,7 @@ const Result = () => {
                 {/* CRT 扫描线背景 */}
                 <div className="absolute inset-0 opacity-[0.02] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,6px_100%]"></div>
             </div>
-            {/* 顶部导航 - 原生 App 风格 */}
+            {/* 顶部导航 - 恢复原有风格但保留适配 */}
             <header className="flex items-end px-4 h-[calc(3.5rem+env(safe-area-inset-top))] pb-3 justify-center sticky top-0 z-30 bg-zinc-950/90 backdrop-blur-2xl border-b border-white/[0.03] shrink-0 pt-[env(safe-area-inset-top)]">
                 <motion.button
                     whileTap={{ scale: 0.9 }}
@@ -257,8 +257,10 @@ const Result = () => {
                 </motion.button>
 
                 <div className="flex flex-col items-center">
-                    <span className="text-[10px] font-tech text-purple-500/80 tracking-[0.3em] uppercase leading-none mb-1">Analysis Report</span>
-                    <h2 className="text-zinc-100 text-[15px] font-black tracking-wider uppercase">深度报告</h2>
+                    <h2 className="text-zinc-100 text-[17px] font-black tracking-tight flex items-center gap-2">
+                        <span className="text-purple-500 font-mono text-xl animate-pulse">&gt;</span>
+                        报告解析
+                    </h2>
                 </div>
 
                 <div className="absolute right-4 flex items-center gap-2">
@@ -283,9 +285,9 @@ const Result = () => {
                 <motion.div variants={itemVariants} className="w-full">
                     <div className="flex flex-col gap-3 rounded-[24px] bg-accent-amber p-6 shadow-2xl relative overflow-hidden border-b-4 border-amber-600/30">
                         <div className="flex flex-col gap-2 relative z-10">
-                            <div className="flex items-center gap-2 mb-1 opacity-80">
-                                <span className="material-symbols-outlined text-[18px] text-zinc-950">search_insights</span>
-                                <span className="text-zinc-950 text-xs font-black uppercase tracking-widest">Subtext Decoder</span>
+                            <div className="flex items-center gap-2 mb-1">
+                                <span className="material-symbols-outlined text-[20px] text-zinc-950 font-bold">visibility</span>
+                                <span className="text-zinc-950 text-base font-black tracking-tight">潜台词</span>
                             </div>
                             <div
                                 className="text-zinc-900 text-[16.5px] font-serif font-bold leading-[1.8] tracking-tight"
@@ -297,8 +299,9 @@ const Result = () => {
 
                 {/* 下一步行动 */}
                 <motion.div variants={itemVariants} className="w-full">
-                    <div className="flex items-center gap-2 mb-3 px-1">
-                        <h3 className="text-zinc-400 tracking-[0.2em] text-[10px] font-tech font-black uppercase">Next Steps / 行动指南</h3>
+                    <div className="flex items-center gap-2 mb-3 px-1 text-zinc-300">
+                        <ClipboardCheck className="w-4 h-4" />
+                        <h3 className="text-[15px] font-black">下一步行动</h3>
                     </div>
                     <div className="flex flex-col gap-2.5">
                         {difyResult.actions.map((action, index) => {
@@ -324,16 +327,16 @@ const Result = () => {
 
                 {/* 建议回复 */}
                 <motion.div variants={itemVariants} className="w-full">
-                    <div className="flex items-center gap-2 mb-3 px-1">
-                        <h3 className="text-zinc-400 tracking-[0.2em] text-[10px] font-tech font-black uppercase">Response Protocol / 建议话术</h3>
+                    <div className="flex items-center gap-2 mb-3 px-1 text-zinc-300">
+                        <MessageSquare className="w-4 h-4 text-purple-400" />
+                        <h3 className="text-[15px] font-black">建议回复</h3>
                     </div>
                     <div className="rounded-[28px] border border-white/[0.05] bg-zinc-900/40 backdrop-blur-xl overflow-hidden shadow-2xl relative group">
-                        <div className="bg-white/[0.02] px-5 py-3 flex items-center justify-between border-b border-white/[0.05]">
-                            <div className="flex items-center gap-2">
+                        <div className="bg-white/[0.02] px-5 py-2.5 flex items-center justify-between border-b border-white/[0.05]">
+                            <div className="flex items-center gap-2 py-0.5">
                                 <div className="size-1.5 rounded-full bg-purple-500 animate-pulse"></div>
-                                <span className="text-zinc-500 font-mono text-[9px] tracking-[0.2em] uppercase">Encrypted Output</span>
+                                <span className="text-zinc-500 font-mono text-[10px] tracking-widest uppercase">READY</span>
                             </div>
-                            <span className="text-[9px] text-zinc-600 font-mono italic">#0421-GEN</span>
                         </div>
                         <div className="p-7 relative min-h-[140px]">
                             <div className="relative z-20 font-serif text-[18px] leading-[1.8] tracking-wide text-terminal-green italic">
