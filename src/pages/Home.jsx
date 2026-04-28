@@ -18,7 +18,6 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '../lib/utils';
-import { uploadFile } from '../lib/dify';
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -47,7 +46,7 @@ const Home = () => {
     const [fireLevel, setFireLevel] = useState(2);
     const [isInputFocused, setIsInputFocused] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
-    const [fileId, setFileId] = useState(null);
+    const [imageDataUrl, setImageDataUrl] = useState(null);
     const [filePreview, setFilePreview] = useState(null);
     const fileInputRef = React.useRef(null);
 
@@ -114,14 +113,18 @@ const Home = () => {
             const compressedFile = await compressImage(file);
             console.log('[Home] Compressed size:', (compressedFile.size / 1024).toFixed(2) + 'KB');
 
-            const result = await uploadFile(compressedFile);
-            console.log('[Home] Upload result:', result);
-            setFileId(result.id);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setFilePreview(reader.result);
+                setImageDataUrl(reader.result);
+            };
+            reader.readAsDataURL(compressedFile);
         } catch (err) {
             console.error('Upload failed:', err);
             const errorMessage = err.message ? `: ${err.message}` : '，请检查图片大小或网络';
             alert('图片上传失败' + errorMessage);
             setFilePreview(null);
+            setImageDataUrl(null);
             if (fileInputRef.current) fileInputRef.current.value = '';
         } finally {
             setIsUploading(false);
@@ -129,14 +132,14 @@ const Home = () => {
     };
 
     const removeFile = () => {
-        setFileId(null);
+        setImageDataUrl(null);
         setFilePreview(null);
         if (fileInputRef.current) fileInputRef.current.value = '';
     };
 
     const handleTranslate = () => {
-        if (!inputText.trim() && !fileId) return;
-        navigate('/result', { state: { inputText, fireLevel, mode, persona, fileId } });
+        if (!inputText.trim() && !imageDataUrl) return;
+        navigate('/result', { state: { inputText, fireLevel, mode, persona, imageDataUrl } });
     };
 
     const rangeStyle = {
@@ -322,14 +325,14 @@ const Home = () => {
                                 <textarea
                                     className={cn(
                                         "w-full min-h-[140px] max-h-[25vh] bg-transparent text-zinc-200 placeholder:text-zinc-700 p-4 text-[15px] font-serif focus:outline-none scroll-smooth resize-none border-none outline-none ring-0 leading-relaxed caret-purple-500 no-scrollbar overflow-y-auto",
-                                        fileId && "opacity-50 cursor-not-allowed"
+                                        imageDataUrl && "opacity-50 cursor-not-allowed"
                                     )}
-                                    placeholder={fileId ? "> 已上传图片，点击图片周围 X 移除后可输入文字..." : "> 粘贴内容，开始翻译..."}
+                                    placeholder={imageDataUrl ? "> 已选择图片，移除后可输入文字..." : "> 粘贴内容，开始翻译..."}
                                     value={inputText}
-                                    onFocus={() => !fileId && setIsInputFocused(true)}
+                                    onFocus={() => !imageDataUrl && setIsInputFocused(true)}
                                     onBlur={() => setIsInputFocused(false)}
-                                    onChange={(e) => !fileId && setInputText(e.target.value)}
-                                    readOnly={!!fileId}
+                                    onChange={(e) => !imageDataUrl && setInputText(e.target.value)}
+                                    readOnly={!!imageDataUrl}
                                 ></textarea>
 
                                 {filePreview && (
@@ -462,11 +465,11 @@ const Home = () => {
                         whileHover={{ y: -2, scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={handleTranslate}
-                        disabled={(!inputText.trim() && !fileId) || isUploading}
+                        disabled={(!inputText.trim() && !imageDataUrl) || isUploading}
                         className={cn(
                             "w-full h-14 relative overflow-hidden rounded-2xl flex items-center justify-center gap-3 transition-all duration-500",
                             "bg-purple-600 text-white font-display font-black text-lg shadow-[0_8px_30px_rgba(168,85,247,0.4)]",
-                            (!inputText.trim() && !fileId) || isUploading ? "opacity-90 cursor-not-allowed" : ""
+                            (!inputText.trim() && !imageDataUrl) || isUploading ? "opacity-90 cursor-not-allowed" : ""
                         )}
                     >
                         {/* 内部微光流柱 */}

@@ -1,6 +1,6 @@
 # Workplace Translator
 
-Workplace Translator is a mobile-first React app for decoding workplace messages and generating practical reply suggestions. It supports text input, image upload, role selection, and response intensity control, then sends the request to a Dify workflow for analysis.
+Workplace Translator is a mobile-first React app for decoding workplace messages and generating practical reply suggestions. It supports text input, image input, role selection, and response intensity control, then sends the request to a GLM API proxy endpoint for analysis.
 
 ## Features
 
@@ -22,8 +22,8 @@ Workplace Translator is a mobile-first React app for decoding workplace messages
 - Framer Motion
 - Lucide React
 - Capacitor 8
-- Dify Workflow API
-- Vercel rewrites for API proxying
+- GLM API
+- Vercel serverless functions
 
 ## Project Structure
 
@@ -34,10 +34,14 @@ Workplace Translator is a mobile-first React app for decoding workplace messages
 |   |   +-- Home.jsx
 |   |   +-- Result.jsx
 |   +-- lib/
-|   |   +-- dify.js
+|   |   +-- glm.js
 |   |   +-- utils.js
 |   +-- App.jsx
 |   +-- main.jsx
++-- api/
+|   +-- translate.js
++-- server/
+|   +-- glm-service.js
 +-- ios/
 +-- public/
 +-- capacitor.config.ts
@@ -52,6 +56,18 @@ Install dependencies:
 
 ```bash
 npm install
+```
+
+Create a local environment file:
+
+```bash
+cp .env.example .env.local
+```
+
+Then set your GLM API key:
+
+```text
+GLM_API_KEY=your-glm-api-key
 ```
 
 Start the local development server:
@@ -72,15 +88,24 @@ Preview the production build:
 npm run preview
 ```
 
-## API Proxy
+## GLM Integration
 
-The app calls Dify through the relative path `/dify-api`. In production, `vercel.json` rewrites those requests to:
+The app calls the project-local endpoint:
 
 ```text
-http://dify.acesohealthy.com/v1/:path*
+/api/translate
 ```
 
-The same relative path is also used in development so Vite can proxy API requests consistently.
+That endpoint reads `GLM_API_KEY` from the server environment and calls the GLM Chat Completions API. API keys are not exposed to the browser.
+
+Default models:
+
+```text
+GLM_TEXT_MODEL=glm-5.1
+GLM_VISION_MODEL=glm-4.6v
+```
+
+`glm-5.1` is used for text-only requests. `glm-4.6v` is used when an image is included.
 
 ## iOS Build
 
@@ -107,9 +132,9 @@ npx cap open ios
 
 ## Deployment
 
-This repository is ready for Vercel deployment. The single-page app fallback and Dify API rewrite are configured in `vercel.json`.
+This repository is ready for Vercel deployment. Configure `GLM_API_KEY` in the Vercel project environment variables before deploying.
 
 ## Notes
 
-- This project currently stores the Dify app key in the frontend API helper. For production hardening, move API credentials behind a server-side boundary or protected environment variable.
+- GLM credentials must stay in environment variables and should never be committed to the repository.
 - The UI is designed primarily for mobile-sized screens.
